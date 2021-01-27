@@ -1,4 +1,4 @@
-package com.newjerseysoftware.hederaDemo.repository;
+/*package com.newjerseysoftware.hederaDemo.repository;
 
 import com.newjerseysoftware.hederaDemo.model.Wallet;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,4 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WalletRepository extends JpaRepository{
       Wallet findByAccountid(String Accountid);
-}
+}*/

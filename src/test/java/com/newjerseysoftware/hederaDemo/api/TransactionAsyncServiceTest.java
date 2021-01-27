@@ -5,6 +5,7 @@ import com.hedera.hashgraph.sdk.HederaReceiptStatusException;
 import com.hedera.hashgraph.sdk.TransactionReceipt;
 import com.newjerseysoftware.hederaDemo.model.User;
 import com.newjerseysoftware.hederaDemo.model.Vendor;
+import com.newjerseysoftware.hederaDemo.service.hedera.api.TransactionAsyncService;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeoutException;
@@ -65,7 +66,7 @@ class TransactionAsyncServiceTest {
         vendor.setAccountid();
 
         TransactionAsyncService service = new TransactionAsyncService();
-        TransactionReceipt receipt = service.cashBack(user, vendor, 5, (long) (10));
+        TransactionReceipt receipt = service.cashBack(user, vendor, 5, (int) 10);
         System.out.println(receipt.status);
     }
 }

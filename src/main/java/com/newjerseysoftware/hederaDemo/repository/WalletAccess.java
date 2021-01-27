@@ -1,4 +1,4 @@
-package com.newjerseysoftware.hederaDemo.repository;
+/*package com.newjerseysoftware.hederaDemo.repository;
 
 import com.newjerseysoftware.hederaDemo.model.User;
 import com.newjerseysoftware.hederaDemo.model.Wallet;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Repository("wallet")
+/*@Repository("wallet")
 public abstract class WalletAccess implements WalletRepository {
     private static WalletRepository walletRepos = new WalletRepository() {
 
@@ -26,8 +26,8 @@ public abstract class WalletAccess implements WalletRepository {
             return 0;
         }
 
-        @Override
-        public Page findAll(Example example, Pageable pageable) {
+        @Override*/
+        /*public Page findAll(Example example, Pageable pageable) {
             return null;
         }
 
@@ -141,4 +141,4 @@ public abstract class WalletAccess implements WalletRepository {
             return walletRepos.findByAccountid(Accountid);
          }
         };
-    }
+    }*/

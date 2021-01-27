@@ -1,4 +1,4 @@
-package com.newjerseysoftware.hederaDemo.security;
+/*package com.newjerseysoftware.hederaDemo.security;
 
 public class SecurityConstants {
     public static final String SECRET = "SecretKeyToGenJWTs";
@@ -6,4 +6,4 @@ public class SecurityConstants {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
     public static final String SIGN_UP_URL = "/api/v1.0/user";
-}
+}*/

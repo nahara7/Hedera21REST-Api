@@ -1,4 +1,4 @@
-/*package com.newjerseysoftware.hederaDemo.components;
+package com.newjerseysoftware.hederaDemo.components;
 
 import com.hedera.hashgraph.sdk.*;
 import org.slf4j.Logger;
@@ -56,4 +56,4 @@ public class Hedera {
 
         return receipt.tokenId;
     }
-}*/
+}

@@ -1,4 +1,4 @@
-package com.newjerseysoftware.hederaDemo.model;
+/*package com.newjerseysoftware.hederaDemo.model;
 import com.hedera.hashgraph.sdk.Hbar;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -116,7 +116,7 @@ public class Wallet {
         this.accountId = accountId;
     }
 
-}
+}*/
 
 
 

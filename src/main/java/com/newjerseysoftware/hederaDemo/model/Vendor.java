@@ -11,7 +11,7 @@ import java.util.concurrent.TimeoutException;
 @Table(name = "vendors")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Vendor {
-    Client client=Client.forTestnet();
+
     public Vendor() {
     }
 
@@ -123,7 +123,7 @@ public class Vendor {
                 '}';
     }
     public AccountId AccountCreateTransaction(String publickey) throws TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
-
+        Client client=Client.forTestnet();
         //add environment variables
         AccountId envId=AccountId.fromString(Objects.requireNonNull((System.getenv("nahara_account_id"))));
         PrivateKey envPriv=PrivateKey.fromString(Objects.requireNonNull((System.getenv("nahara_private_key"))));

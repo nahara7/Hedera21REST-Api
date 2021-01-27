@@ -2,11 +2,10 @@ package com.newjerseysoftware.hederaDemo;
 
 import com.hedera.hashgraph.sdk.HederaPreCheckStatusException;
 import com.hedera.hashgraph.sdk.HederaReceiptStatusException;
-import com.hedera.hashgraph.sdk.Transaction;
 import com.hedera.hashgraph.sdk.TransactionReceipt;
-import com.newjerseysoftware.hederaDemo.api.TransactionAsyncService;
 import com.newjerseysoftware.hederaDemo.model.User;
 import com.newjerseysoftware.hederaDemo.model.Vendor;
+import com.newjerseysoftware.hederaDemo.service.hedera.api.TransactionAsyncService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

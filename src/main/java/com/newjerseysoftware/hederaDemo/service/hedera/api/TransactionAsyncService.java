@@ -1,8 +1,8 @@
 package com.newjerseysoftware.hederaDemo.service.hedera.api;
 
 import com.hedera.hashgraph.sdk.*;
+import com.newjerseysoftware.hederaDemo.components.Hedera;
 import com.newjerseysoftware.hederaDemo.model.Token;
-import com.newjerseysoftware.hederaDemo.model.Transaction;
 import com.newjerseysoftware.hederaDemo.model.User;
 import com.newjerseysoftware.hederaDemo.model.Vendor;
 import org.slf4j.Logger;
@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import com.newjerseysoftware.hederaDemo.api.Hedera;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -24,16 +23,16 @@ public class TransactionAsyncService {
     public TransactionAsyncService() {
     }
 
-    @Autowired
+    /*@Autowired
     private Hedera hedera;
-
+     @Autowired
     public TransactionAsyncService(Hedera hedera) {
-        hedera = hedera;
-    }
+        this.hedera = hedera;
+    }*/
 
     private static Logger log = LoggerFactory.getLogger(TransactionAsyncService.class);
 
-    @Async()
+   /* @Async()
     public Token createToken(String tokenName, String tokenSymbol,
                              String initialSupply) {
 
@@ -60,13 +59,13 @@ public class TransactionAsyncService {
         return CompletableFuture.completedFuture(token)
                 .getNow(null);
 
-    }
+    }*/
 
     @Async()
     public TransactionReceipt transactionUserVendor(User user, Vendor vendor, Long fee) throws StringIndexOutOfBoundsException, TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
         Client client = Client.forTestnet();
         TransactionReceipt receipt;
-        Token token = new Token();
+        //Token token = new Token();
         log.info("{}", "starting transaction...");
         try {
             //TokenId TokenId= com.hedera.hashgraph.sdk.TokenId.fromString(token.getTokenid());

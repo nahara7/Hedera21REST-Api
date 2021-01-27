@@ -13,7 +13,7 @@ import java.util.concurrent.TimeoutException;
 @Table(name = "users")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
-    Client client=Client.forTestnet();
+
 
     public User() {
     }
@@ -45,8 +45,8 @@ public class User {
 
     @Column(name="privatekey")
     private String privatekey;
-    @Column(name="wallet")
-    private Wallet wallet;
+    /*@Column(name="wallet")*/
+    /*private Wallet wallet;*/
 
 
 
@@ -61,12 +61,12 @@ public class User {
     public void setAccountid() throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException {
         this.accountid=AccountCreateTransaction(this.publickey).toString();
     }
-   public void setWallet(Wallet wallet){
+  /* public void setWallet(Wallet wallet){
         this.wallet=wallet;
     }
     public Wallet getWallet(){
         return this.wallet;
-    }
+    }*/
 
     public String getPublickey() {
         return publickey;
@@ -143,6 +143,7 @@ public class User {
     public AccountId AccountCreateTransaction(String publickey) throws TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
 
         //my env variables
+        Client client=Client.forTestnet();
         AccountId envId=AccountId.
                 fromString(Objects.requireNonNull((System.getenv("nahara_account_id"))));
         PrivateKey envPriv=PrivateKey.

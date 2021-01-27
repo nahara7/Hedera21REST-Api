@@ -1,4 +1,4 @@
-package com.newjerseysoftware.hederaDemo.security;
+/*package com.newjerseysoftware.hederaDemo.security;
 
 import com.newjerseysoftware.hederaDemo.service.UserDetailsServiceImpl;
 import org.slf4j.Logger;
@@ -55,4 +55,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
-}
+}*/
