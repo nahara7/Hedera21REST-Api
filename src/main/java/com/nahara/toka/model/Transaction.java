@@ -12,22 +12,21 @@ public class Transaction {
     //TransactionAsyncService transactionAsyncService= new TransactionAsyncService();
     private String userId;
     private String vendorId;
-    private int fee;
+    private long fee;
     //update promotion class
 
 
     public Transaction() {
     }
 
-    public Transaction(String userId, String vendorId, int fee) throws AirtableException {
+    public Transaction(String userId, String vendorId, long fee) throws AirtableException {
         UserService userService= new UserService();
         VendorService vendorService=new VendorService();
         TransactionAsyncService transactionAsyncService= new TransactionAsyncService();
         this.userId=userId;
         this.vendorId=vendorId;
-        //User user =userService.findUser(userId);
-        Vendor vendor =vendorService.findVendor(vendorId);
         this.fee=fee;
+
 
     }
 
@@ -47,7 +46,7 @@ public class Transaction {
         this.vendorId = vendorId;
     }
 
-    public int getFee() {
+    public long getFee() {
         return this.fee;
     }
 

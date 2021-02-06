@@ -2,17 +2,12 @@ package com.nahara.toka.controller;
 
 import com.hedera.hashgraph.sdk.HederaPreCheckStatusException;
 import com.hedera.hashgraph.sdk.HederaReceiptStatusException;
-import com.nahara.toka.model.PublicUser;
-import com.nahara.toka.model.User;
-import com.nahara.toka.model.Vendor;
-import com.nahara.toka.service.hedera.api.PublicUserService;
-import com.nahara.toka.service.hedera.api.PublicVendorService;
-import com.nahara.toka.service.hedera.api.UserService;
-import com.nahara.toka.service.hedera.api.VendorService;
+import com.nahara.toka.model.*;
+import com.nahara.toka.service.hedera.api.*;
 import com.sybit.airtable.exception.AirtableException;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeoutException;
 
@@ -22,15 +17,15 @@ import java.util.concurrent.TimeoutException;
 //@CrossOrigin(origins = "")
 //when accessing the Public User and Public Vendor you just need
 //to send over the userId or vendorID
+//remember to delete and update accounts as well !
 public class RegController {
-
 
     private VendorService vendorService= new VendorService();
     private UserService userService=new UserService();
-
     private PublicVendorService publicVendorService= new PublicVendorService();
-
     private PublicUserService publicUserService= new PublicUserService();
+    private AccountService accountService= new AccountService();
+
     public RegController() throws AirtableException {
     }
 
@@ -40,30 +35,55 @@ public class RegController {
         user.setPublickey();
         user.setAccountid();
         User newUser= userService.createUser(user);
-        System.out.println(publicUserService.findUser(newUser.getUserId()).getPrivateKey());
+
+        Account account= new Account();
+        account.setUsername(user.getUsername());
+        account.setPassword(user.getPassword());
+        Account newAccount=accountService.createAccount(account);
+        //System.out.println(publicUserService.findUser(newUser.getUserId()).getPrivateKey());
         return ResponseEntity.ok().body(publicUserService.findUser(newUser.getUserId()));
     }
     @PostMapping("/createVendor")
-    public void createVendor(@RequestBody Vendor vendor) throws AirtableException, InvocationTargetException, IllegalAccessException, TimeoutException, NoSuchMethodException, HederaReceiptStatusException, HederaPreCheckStatusException {
+    public ResponseEntity<PublicVendor> createVendor(@RequestBody Vendor vendor) throws AirtableException, InvocationTargetException, IllegalAccessException, TimeoutException, NoSuchMethodException, HederaReceiptStatusException, HederaPreCheckStatusException {
+
         vendor.setPrivateKey();
         vendor.setPublickey();
         vendor.setAccountid();
         Vendor newVendor=vendorService.createVendor(vendor);
-        System.out.println(publicVendorService.findVendor(newVendor.getVendorId()).getPrivateKey());
+
+        //create account
+        Account account= new Account();
+        account.setUsername(vendor.getUsername());
+        account.setVendorId(vendor.getVendorId());
+        account.setEmail(vendor.getEmail());
+        account.setPassword(vendor.getPassword());
+
+        Account newAccount=accountService.createAccount(account);
+
+
+        //System.out.println(publicVendorService.findVendor(newVendor.getVendorId()).getPrivateKey());
+
+        return ResponseEntity.ok().body(publicVendorService.findVendor(newVendor.getVendorId()));
+
+    }
+    @PutMapping ("/updateUser")
+    public ResponseEntity<PublicUser> updateUser(@RequestBody User user) throws AirtableException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        User updatedUser=userService.updateUser(user);
+        return ResponseEntity.ok().body(publicUserService.findUser(updatedUser.getUserId()));
 
     }
 
    @DeleteMapping("/user/{id}")
    public String deleteUser(String Id){
     try{
-         //inaccurate
-        userService.findUser(Id);
+
+        userService.deleteUser(Id);
 
     } catch (AirtableException e) {
         e.printStackTrace();
         return "user does not exist";
     }
-       return "successfully deleted";
+       return "User has been successfully deleted";
    }
 
     @DeleteMapping("/vendor/{id}")
@@ -75,6 +95,6 @@ public class RegController {
             e.printStackTrace();
             return "vendor does not exist";
         }
-        return "successfully deleted";
+        return "Vendor has been successfully deleted";
     }
 }

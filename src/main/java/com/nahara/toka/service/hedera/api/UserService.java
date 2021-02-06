@@ -33,7 +33,12 @@ public class UserService {
     public User findUser(String Id) throws AirtableException {
         return userTable.find(Id);
     }
+    public void deleteUser(String Id) throws AirtableException {
+        userTable.destroy(Id);
+    }
 
-     //add update methods etc
+    public User updateUser(User user) throws InvocationTargetException, AirtableException, NoSuchMethodException, IllegalAccessException {
+        return userTable.update(user);
+    }
 
 }

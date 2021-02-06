@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
 		org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class}
 )
-public class DemoApplication{
+public class TokaApplication {
 
 	/*@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -15,7 +15,7 @@ public class DemoApplication{
 	}*/
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(TokaApplication.class, args);
 	}
 
 }

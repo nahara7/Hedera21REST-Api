@@ -35,8 +35,8 @@ public class VendorService {
         return vendorTable.find(Id);
     }
     public Vendor update(Vendor vendor) throws InvocationTargetException, AirtableException, NoSuchMethodException, IllegalAccessException {
-        Vendor updated=vendorTable.update(vendor);
-        return updated;
+        return vendorTable.update(vendor);
+
     }
     public Vendor findVendorByAccountId(String accountId) throws AirtableException {
         //inaccurate

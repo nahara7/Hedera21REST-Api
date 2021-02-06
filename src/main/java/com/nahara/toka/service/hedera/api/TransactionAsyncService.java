@@ -59,7 +59,7 @@ public class TransactionAsyncService {
     }*/
 
     @Async()
-    public TransactionReceipt transactionUserVendor(PublicUser user, PublicVendor vendor, int fee) throws StringIndexOutOfBoundsException, TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
+    public TransactionReceipt transactionUserVendor(PublicUser user, PublicVendor vendor, long fee) throws StringIndexOutOfBoundsException, TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
         Client client = Client.forTestnet();
         TransactionReceipt receipt;
         //Token token = new Token();
@@ -80,7 +80,7 @@ public class TransactionAsyncService {
                             (AccountId.fromString(vendor.getAccountid()), new Hbar(2));
             TransferTransaction txId = transaction.
             freezeWith(client).sign( PrivateKey.fromString
-            ("302e020100300506032b657004220420996449d1bc18e32e9102bbeb89cfcc2f84aeb4f9b7008f8683f80aff3fd93fd5"));
+            (user.getPrivateKey()));
             txId.execute(client);
             TransactionId tId = txId.getTransactionId();
             receipt = tId.getReceipt(client);
