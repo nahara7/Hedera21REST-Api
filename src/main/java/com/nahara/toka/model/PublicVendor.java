@@ -7,11 +7,11 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
-public class PublicUser {
-    //to help getting to fields PrivateKey, PublicKey and AccountID
-    //maps to same Table as other corresponding class
+public class PublicVendor {
 
-    public PublicUser() {
+ //to help getting to fields PrivateKey, PublicKey and AccountID
+ //maps to same Table as other corresponding class
+    public PublicVendor() {
     }
 
     public String id;
@@ -33,8 +33,8 @@ public class PublicUser {
     public String privatekey;
     @SerializedName("walletKey")
     private String walletKey;
-    @SerializedName("userId")
-    private String userId;
+    @SerializedName("vendorId")
+    private String vendorId;
 
 
 
@@ -45,9 +45,11 @@ public class PublicUser {
     public String getAccountid() {
         return this.accountid;
     }
+
     public void setWalletKey(String walletKey){
         this.walletKey=walletKey;
     }
+
     public String getWalletKey(){
         return this.walletKey;
     }
@@ -78,13 +80,8 @@ public class PublicUser {
 
 
     }
-    public void setPrivateKey(){
+    public void setPrivateKey(){ this.privatekey= PrivateKey.generate().toString();}
 
-
-        this.privatekey= PrivateKey.generate().toString();
-
-        //this.pubPublickey=this.privatekey;
-    }
     public String getPrivateKey(){ return this.privatekey;}
     public String getPublicKey(){return this.publickey;}
 
@@ -110,16 +107,17 @@ public class PublicUser {
 
     public void setEmail(String email) {
         this.email = email;
+
     }
 
     public String getId(){
         return this.id;
     }
-    public void setUserId(String userId){
-        this.userId=userId;
+    public String getVendorId(){
+        return this.vendorId;
     }
-    public String getUserId(){
-        return this.userId;
+    public void setVendorId(String vendorId){
+        this.vendorId=vendorId;
     }
 
 
@@ -178,4 +176,3 @@ public class PublicUser {
     }
 
 }
-
