@@ -1,4 +1,4 @@
-package com.nahara.toka.error;
+/*package com.nahara.toka.error;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
@@ -69,4 +69,4 @@ class GlobalControllerExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-}
+}*/

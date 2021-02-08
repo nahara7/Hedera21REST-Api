@@ -17,8 +17,9 @@ public class Hedera {
     @Autowired
     private Environment env;
 
-    private static final String HEDERA_API_ACCOUNT_ID = ""+System.getenv("API_ACCOUNT_ID");
-    private static final String HEDERA_API_PRIVATE_KEY = ""+System.getenv("API_PRIVATE_KEY");
+    //update
+    private static final String HEDERA_API_ACCOUNT_ID = ""+System.getenv("NAHARA_ACCOUNT_ID");
+    private static final String HEDERA_API_PRIVATE_KEY = ""+System.getenv("NAHARA_PRIVATE_KEY");
 
     public Hedera() { }
 
@@ -35,6 +36,7 @@ public class Hedera {
         client.setOperator(myAccountId, myPrivateKey);
 
         PrivateKey adminKey = PrivateKey.generate();
+        PrivateKey supplyKey= PrivateKey.generate();
 
         TokenCreateTransaction transaction = new TokenCreateTransaction()
                 .setTokenName(tokenName)
@@ -42,7 +44,8 @@ public class Hedera {
                 .setTreasuryAccountId(myAccountId)
                 .setInitialSupply(Long.parseLong(initialSupply))
                 .setMaxTransactionFee(new Hbar(12))
-                .setAdminKey(adminKey.getPublicKey());
+                .setAdminKey(adminKey.getPublicKey())
+                .setSupplyKey(supplyKey.getPublicKey());
 
         TransactionResponse txResponse =
                 transaction
@@ -52,7 +55,7 @@ public class Hedera {
                         .execute(client);
 
         TransactionReceipt receipt = txResponse.getReceipt(client);
-        //TokenId tokenId = receipt.tokenId;
+        TokenId tokenId = receipt.tokenId;
 
         return receipt.tokenId;
     }

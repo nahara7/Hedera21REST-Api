@@ -1,30 +1,32 @@
 package com.nahara.toka.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.*;
 
-@Entity
-@Table(name = "tokens")
-@JsonIgnoreProperties(ignoreUnknown = true)
+import com.google.gson.annotations.SerializedName;
+
 public class Token {
 
     public Token() {}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private long id;
 
-    @Column(name = "tokenid")
+    @SerializedName("tokenid")
     private String tokenid;
 
-    @Column(name = "name")
+    @SerializedName("name")
     private String name;
 
-    @Column(name = "symbol")
+    @SerializedName("symbol")
     private String symbol;
 
-    @Column(name = "initialsupply")
+    @SerializedName("initalsupply")
     private String initialsupply;
+
+    @SerializedName("supplykey")
+    private String supplykey;
+
+    @SerializedName("adminkey")
+    private String adminkey;
 
     public long getId() {
         return id;

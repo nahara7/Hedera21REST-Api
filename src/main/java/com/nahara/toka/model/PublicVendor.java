@@ -1,9 +1,7 @@
 package com.nahara.toka.model;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.SerializedName;
 import com.hedera.hashgraph.sdk.*;
 import java.util.UUID;
-import javax.persistence.*;
 import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
@@ -27,16 +25,12 @@ public class PublicVendor {
     private String email;
     @SerializedName("accountID")
     private String accountid;
-
     public String publickey;
-
     public String privatekey;
     @SerializedName("walletKey")
     private String walletKey;
     @SerializedName("vendorId")
     private String vendorId;
-
-
 
 
 
@@ -63,23 +57,13 @@ public class PublicVendor {
         this.accountid=AccountCreateTransaction(this.publickey).toString();
 
     }
-
-
-
-
-
     public String getPublickey() {
         return this.publickey;
     }
 
 
-    public void setPublickey(){
+    public void setPublickey(){ this.publickey=PrivateKey.fromString(this.privatekey).getPublicKey().toString();}
 
-        this.publickey=PrivateKey.fromString(this.privatekey).getPublicKey().toString();
-
-
-
-    }
     public void setPrivateKey(){ this.privatekey= PrivateKey.generate().toString();}
 
     public String getPrivateKey(){ return this.privatekey;}
@@ -105,10 +89,7 @@ public class PublicVendor {
         return this.email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-
-    }
+    public void setEmail(String email) { this.email = email;}
 
     public String getId(){
         return this.id;

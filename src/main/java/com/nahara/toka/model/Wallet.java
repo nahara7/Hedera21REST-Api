@@ -1,45 +1,41 @@
-/*package com.newjerseysoftware.hederaDemo.model;
-import com.hedera.hashgraph.sdk.Hbar;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+package com.nahara.toka.model;
+
+import com.nahara.toka.model.Token;
+import com.nahara.toka.model.Transaction;
+import com.nahara.toka.model.User;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "wallet")
-
 public class Wallet {
 
-    @Id
-    @Column(name = "id",nullable = false)
-    @GeneratedValue
+    public Wallet(){}
+
+
+
     private Integer id;
 
-    @NotNull(message = "AccountId must be provided")
-    @Column(name = "account_id")
+
+
     private String accountId;
 
-    @Column(name = "balance",nullable = false)
-    @NotNull(message = "Wallet balance must be provided")
     private BigDecimal balance;
-    @NotNull(message = "Token Type")
-    @ManyToOne
-    @JoinColumn(name = "token_id")
+
+
     private Token token;
 
-    @Column(name = "last_updated")
-    @Temporal(TemporalType.TIMESTAMP)
+
     private Date lastUpdated;
 
-    @Column(name = "last_updated_by")
+
     private String lastUpdatedBy;
 
-    @OneToMany(mappedBy = "wallet", fetch = FetchType.LAZY)
+
     private List<Transaction> transactions;
 
-    public Wallet(){
-    }
+    private String walletKey;
+
 
     public Wallet(String accountId, Token token, BigDecimal balance) {
         this.accountId = accountId;
@@ -116,7 +112,14 @@ public class Wallet {
         this.accountId = accountId;
     }
 
-}*/
+    public String getWalletKey() {
+        return walletKey;
+    }
+
+    public void setWalletKey(String walletKey) {
+        this.walletKey = walletKey;
+    }
+}
 
 
 

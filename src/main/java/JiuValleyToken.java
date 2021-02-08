@@ -1,4 +1,4 @@
-import com.hedera.hashgraph.sdk.*;
+/*import com.hedera.hashgraph.sdk.*;
 import com.hedera.hashgraph.sdk.Client;
 import com.hedera.hashgraph.sdk.AccountId;
 import com.hedera.hashgraph.sdk.PrivateKey;
@@ -9,7 +9,7 @@ import com.squareup.okhttp.Request;
 //import com.hedera.hashgraph.sdk.MirrorClient;
 //import com.hedera.hashgraph.sdk.*;
 //import java.util.Objects;
-import javax.validation.constraints.NotNull;
+
 import java.util.concurrent.TimeoutException;
 //import java.util.concurrent.TimeoutException;
 
@@ -73,5 +73,4 @@ public class JiuValleyToken {
 
         //transaction.getTokenSymbol(),
         //transaction.getDecimals());//transaction.getInitialSupply());*/
-    }
-}
+

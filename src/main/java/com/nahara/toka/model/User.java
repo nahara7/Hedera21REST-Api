@@ -4,7 +4,7 @@ package com.nahara.toka.model;
 import com.google.gson.annotations.SerializedName;
 import com.hedera.hashgraph.sdk.*;
 import java.util.UUID;
-import javax.persistence.*;
+//import javax.persistence.*;
 import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
@@ -31,7 +31,6 @@ public class User {
     @SerializedName("publicKey")
     public String publickey;
     @SerializedName("privateKey")
-    @Access(AccessType.PROPERTY)
     public String privatekey;
     @SerializedName("walletKey")
     private String walletKey;
@@ -146,16 +145,19 @@ public class User {
 
     public AccountId AccountCreateTransaction(String publicKey) throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException {
 
-
+//create without id then call public user ?
         Client client = Client.forTestnet();
 
         AccountId envId = AccountId.
-                fromString(Objects.requireNonNull((System.getenv("nahara_account_id"))));
+               //fromString(this.getAccountid());
+                fromString(Objects.requireNonNull((System.getenv("NAHARA_ACCOUNT_ID"))));
         PrivateKey envPriv = PrivateKey.
-                fromString(Objects.requireNonNull((System.getenv("nahara_private_key"))));
+                //fromString(this.getPrivateKey());
+                fromString(Objects.requireNonNull((System.getenv("NAHARA_PRIVATE_KEY"))));
         client.setOperator(envId, envPriv);
         AccountCreateTransaction transaction = new AccountCreateTransaction()
                 .setKey(PublicKey.fromString(publickey))
+                //higher initial balance upon demo
                 .setInitialBalance(new Hbar(10));
         TransactionResponse txId = transaction.execute(client);
         TransactionReceipt receipt = txId.getReceipt(client);

@@ -5,7 +5,6 @@ import com.hedera.hashgraph.sdk.HederaReceiptStatusException;
 import com.nahara.toka.model.*;
 import com.nahara.toka.service.hedera.api.*;
 import com.sybit.airtable.exception.AirtableException;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +23,7 @@ public class RegController {
     private UserService userService=new UserService();
     private PublicVendorService publicVendorService= new PublicVendorService();
     private PublicUserService publicUserService= new PublicUserService();
-    private AccountService accountService= new AccountService();
+    private AccountAsyncService accountAsyncService = new AccountAsyncService();
 
     public RegController() throws AirtableException {
     }
@@ -39,7 +38,7 @@ public class RegController {
         Account account= new Account();
         account.setUsername(user.getUsername());
         account.setPassword(user.getPassword());
-        Account newAccount=accountService.createAccount(account);
+        Account newAccount= accountAsyncService.createAccount(account);
         //System.out.println(publicUserService.findUser(newUser.getUserId()).getPrivateKey());
         return ResponseEntity.ok().body(publicUserService.findUser(newUser.getUserId()));
     }
@@ -58,7 +57,7 @@ public class RegController {
         account.setEmail(vendor.getEmail());
         account.setPassword(vendor.getPassword());
 
-        Account newAccount=accountService.createAccount(account);
+        Account newAccount= accountAsyncService.createAccount(account);
 
 
         //System.out.println(publicVendorService.findVendor(newVendor.getVendorId()).getPrivateKey());

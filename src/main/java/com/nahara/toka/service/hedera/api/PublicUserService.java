@@ -17,21 +17,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeoutException;
 
 public class PublicUserService {
-
+    Airtable airtable = new Airtable().configure("keykefT9YD5rhkuFg");
+    Base base = airtable.base("appg4L9uWpNhonYHS");
+    Table<PublicUser> userPublicTable = base.table("Users", PublicUser.class);
 
     public PublicUserService() throws AirtableException {
     }
 
 
     public void deleteUser(String Id) throws AirtableException {
-        //vendorPublicTable.destroy(Id);
+             userPublicTable.destroy(Id);
     }
 
     //entity wrap
-    public static PublicUser findUser(String Id) throws AirtableException {
-        Airtable airtable = new Airtable().configure("keykefT9YD5rhkuFg");
-        Base base = airtable.base("appg4L9uWpNhonYHS");
-        Table<PublicUser> userPublicTable = base.table("Users", PublicUser.class);
+    public PublicUser findUser(String Id) throws AirtableException {
         return userPublicTable.find(Id);
     }
 }

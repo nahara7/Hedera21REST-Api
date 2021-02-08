@@ -8,10 +8,10 @@ import com.sybit.airtable.Base;
 import com.sybit.airtable.Table;
 import com.sybit.airtable.exception.AirtableException;
 
-
-
 public class PublicVendorService {
-
+    Airtable airtable = new Airtable().configure("keykefT9YD5rhkuFg");
+    Base base = airtable.base("appg4L9uWpNhonYHS");
+    Table<PublicVendor> vendorPublicTable = base.table("Vendors", PublicVendor.class);
 
     public PublicVendorService() throws AirtableException {
     }
@@ -22,10 +22,8 @@ public class PublicVendorService {
     }
 
     //entity wrap
-    public static PublicVendor findVendor(String Id) throws AirtableException {
-        Airtable airtable = new Airtable().configure("keykefT9YD5rhkuFg");
-        Base base = airtable.base("appg4L9uWpNhonYHS");
-        Table<PublicVendor> vendorPublicTable = base.table("Vendors", PublicVendor.class);
+    public  PublicVendor findVendor(String Id) throws AirtableException {
+
         return vendorPublicTable.find(Id);
     }
 }

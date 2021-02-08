@@ -21,8 +21,6 @@ public class TransactionController {
 
     private static Logger log = LoggerFactory.getLogger(TransactionController.class);
 
-   /*@Autowired
-    private TokenRepository tokenRepository;*/
 
     @Autowired
     private TransactionAsyncService transactionAsyncService;
@@ -35,12 +33,12 @@ public class TransactionController {
     }
 
     private Token token;
-    /*@PostMapping("/token")
+    @PostMapping("/token")
     public ResponseEntity<Token> createToken(@RequestBody Token token) {
 
         log.info("{}","/token..." + token.getSymbol());
 
-        //Token newToken = transactionAsyncService.createToken(
+        Token newToken = transactionAsyncService.createToken(
                     token.getName(),
                     token.getSymbol(),
                     token.getInitialsupply());
@@ -50,7 +48,7 @@ public class TransactionController {
         //tokenRepository.save(newToken);
 
         return ResponseEntity.ok().body(newToken);
-    }*/
+    }
     @PostMapping("/userVendor")
     //sends back receipt
     //update sending back record

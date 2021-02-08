@@ -3,7 +3,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.SerializedName;
 import com.hedera.hashgraph.sdk.*;
 import java.util.UUID;
-import javax.persistence.*;
 import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
@@ -38,10 +37,6 @@ public class PublicUser {
 
 
 
-
-
-
-
     public String getAccountid() {
         return this.accountid;
     }
@@ -61,30 +56,13 @@ public class PublicUser {
         this.accountid=AccountCreateTransaction(this.publickey).toString();
 
     }
-
-
-
-
-
     public String getPublickey() {
         return this.publickey;
     }
+    public void setPublickey(){ this.publickey=PrivateKey.fromString(this.privatekey).getPublicKey().toString();}
 
+    public void setPrivateKey(){ this.privatekey= PrivateKey.generate().toString();}
 
-    public void setPublickey(){
-
-        this.publickey=PrivateKey.fromString(this.privatekey).getPublicKey().toString();
-
-
-
-    }
-    public void setPrivateKey(){
-
-
-        this.privatekey= PrivateKey.generate().toString();
-
-        //this.pubPublickey=this.privatekey;
-    }
     public String getPrivateKey(){ return this.privatekey;}
     public String getPublicKey(){return this.publickey;}
 
@@ -154,9 +132,9 @@ public class PublicUser {
         Client client = Client.forTestnet();
 
         AccountId envId = AccountId.
-                fromString(Objects.requireNonNull((System.getenv("nahara_account_id"))));
+                fromString(Objects.requireNonNull((System.getenv("NAHARA_ACCOUNT_ID"))));
         PrivateKey envPriv = PrivateKey.
-                fromString(Objects.requireNonNull((System.getenv("nahara_private_key"))));
+                fromString(Objects.requireNonNull((System.getenv("NAHARA_PRIVATE_KEY"))));
         client.setOperator(envId, envPriv);
         AccountCreateTransaction transaction = new AccountCreateTransaction()
                 .setKey(PublicKey.fromString(publickey))

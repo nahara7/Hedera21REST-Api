@@ -4,7 +4,7 @@ package com.nahara.toka.model;
 import com.google.gson.annotations.SerializedName;
 import com.hedera.hashgraph.sdk.*;
 import java.util.UUID;
-import javax.persistence.*;
+
 import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
@@ -31,7 +31,6 @@ public class Vendor {
     @SerializedName("publicKey")
     public String publickey;
     @SerializedName("privateKey")
-    @Access(AccessType.PROPERTY)
     public String privatekey;
     @SerializedName("walletKey")
     private String walletKey;

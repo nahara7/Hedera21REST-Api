@@ -7,7 +7,7 @@ import com.nahara.toka.service.hedera.api.VendorService;
 import com.sybit.airtable.exception.AirtableException;
 
 import java.util.UUID;
-import javax.persistence.*;
+
 import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
