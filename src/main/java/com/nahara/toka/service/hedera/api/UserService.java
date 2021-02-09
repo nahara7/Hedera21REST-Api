@@ -4,8 +4,7 @@ package com.nahara.toka.service.hedera.api;
 import com.hedera.hashgraph.sdk.HederaPreCheckStatusException;
 import com.hedera.hashgraph.sdk.HederaReceiptStatusException;
 import com.hedera.hashgraph.sdk.PrivateKey;
-import com.nahara.toka.model.User;
-import com.nahara.toka.model.Vendor;
+import com.nahara.toka.model.*;
 import com.sybit.airtable.Airtable;
 import com.sybit.airtable.Base;
 import com.sybit.airtable.Table;
@@ -16,8 +15,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeoutException;
 
 public class UserService {
-    Airtable airtable= new Airtable().configure("keykefT9YD5rhkuFg");
-    Base base = airtable.base("appg4L9uWpNhonYHS");
+    private static final String TOKAAIR = ""+System.getenv("TOKAAIR");
+    private static final String TOKABASE = ""+System.getenv("TOKABASE");
+    private static final String JVT=""+ System.getenv("JVT_TOKEN_ID");
+
+    Airtable airtable = new Airtable().configure(TOKAAIR);
+    Base base = airtable.base(TOKABASE);
     Table<User> userTable = base.table("Users", User.class);
 
     public UserService() throws AirtableException {

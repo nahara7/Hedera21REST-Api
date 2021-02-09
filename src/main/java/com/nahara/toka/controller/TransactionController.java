@@ -1,8 +1,7 @@
 package com.nahara.toka.controller;
-import com.hedera.hashgraph.sdk.HederaPreCheckStatusException;
-import com.hedera.hashgraph.sdk.HederaReceiptStatusException;
-import com.hedera.hashgraph.sdk.TransactionReceipt;
+import com.hedera.hashgraph.sdk.*;
 import com.nahara.toka.model.*;
+import com.nahara.toka.model.Transaction;
 import com.nahara.toka.service.hedera.api.*;
 import com.sybit.airtable.exception.AirtableException;
 import org.slf4j.Logger;
@@ -22,13 +21,16 @@ public class TransactionController {
     private static Logger log = LoggerFactory.getLogger(TransactionController.class);
 
 
-    @Autowired
-    private TransactionAsyncService transactionAsyncService;
+
+    TransactionAsyncService transactionAsyncService= new TransactionAsyncService();
     UserService userService = new UserService();
     VendorService vendorService = new VendorService();
     PublicUserService publicUserService= new PublicUserService();
     PublicVendorService publicVendorService=new PublicVendorService();
+    AdminAsyncService adminAsyncService= new AdminAsyncService();
+    AccountAsyncService accountAsyncService= new AccountAsyncService();
 
+    public String JVT=""+ System.getenv("JVT_TOKEN_ID");
     public TransactionController() throws AirtableException {
     }
 
@@ -59,18 +61,48 @@ public class TransactionController {
            Long fee= transaction.getFee();
 
            TransactionReceipt receipt = transactionAsyncService.transactionUserVendor(user, vendor, fee);
-
            return ResponseEntity.ok().body(receipt);
 
+
     }
-    /*@PostMapping
-    public ResponseEntity<TransactionReceipt> promotion(@Valid @RequestBody Transaction.Promotion promotion) throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException {
-        TransactionReceipt receipt = transactionAsyncService.vendorPromotion(promotion.getUser(), promotion.getVendor(), promotion.getPromotion(), promotion.getMemo());
+    @PostMapping("/initialize")
+    public String initialize(@RequestBody Id userId) throws AirtableException {
+        System.out.println(userId.getBaseId());
+        System.out.println(JVT);
+        String baseId=userId.getBaseId();
+        TransactionReceipt receipt= transactionAsyncService.AssociatingToken(baseId, JVT);
+        adminAsyncService.adminDeposit(userId.getBaseId());
+        AccountBalance accountBalance= accountAsyncService.getUserAccountBalance(userId.getBaseId());
+
+        return accountBalance.token.toString();
+
+    }
+    @PostMapping("user/adminDeposit")
+    public  ResponseEntity<AccountBalance> userAdminDeposit(@RequestBody Id userId) throws AirtableException {
+            TransactionReceipt receipt= adminAsyncService.adminDeposit(userId.getBaseId());
+            AccountBalance accountBalance= accountAsyncService.getUserAccountBalance(userId.getBaseId());
+
+            return ResponseEntity.ok().body(accountBalance);
+        }
+    @PostMapping("vendor/adminDeposit")
+    public  ResponseEntity<AccountBalance> vendorAdminDeposit(@RequestBody Id vendorId) throws AirtableException {
+        TransactionReceipt receipt= adminAsyncService.adminDeposit(vendorId.getBaseId());
+        AccountBalance accountBalance= accountAsyncService.getUserAccountBalance(vendorId.getBaseId());
+
+        return ResponseEntity.ok().body(accountBalance);
+    }
+
+
+    @PostMapping("/cashback)")
+    public ResponseEntity<TransactionReceipt> cashBack( @RequestBody CashBack cashBack ) throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException, AirtableException {
+        PublicUser user= publicUserService.findUser(cashBack.getUserId());
+        PublicVendor vendor=publicVendorService.findVendor(cashBack.getVendorId());
+        TransactionReceipt receipt=transactionAsyncService.cashBack(user, vendor,cashBack.getTotal());
         return ResponseEntity.ok().body(receipt);
-    }*/
-
-
     }
+
+
+}
 
 
 

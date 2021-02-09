@@ -16,13 +16,21 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 
 public class TokenAsyncService {
-    Airtable airtable = new Airtable().configure("keykefT9YD5rhkuFg");
-    Base base = airtable.base("appg4L9uWpNhonYHS");
+    private static final String ADMINACCOUNTID= ""+System.getenv("NAHARA_ACCOUNT_ID");
+    private static final String ADMINPRIVATEKEY= ""+System.getenv("NAHARA_PRIVATE_KEY");
+    private static final String TOKAAIR = ""+System.getenv("TOKAAIR");
+    private static final String TOKABASE = ""+System.getenv("TOKABASE");
+    private static final String JVT=""+ System.getenv("JVT_TOKEN_ID");
+
+
+    Hedera hedera;
+
+    Airtable airtable = new Airtable().configure(TOKAAIR.toString());
+    Base base = airtable.base(TOKABASE.toString());
     Table<Account> accountTable = base.table("Tokens", Account.class);
 
     private static Logger log = LoggerFactory.getLogger(AccountAsyncService.class);
 
-    Hedera hedera;
     public TokenAsyncService() throws AirtableException {
     }
 

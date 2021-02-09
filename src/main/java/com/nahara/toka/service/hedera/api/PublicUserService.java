@@ -11,6 +11,7 @@ import com.sybit.airtable.Airtable;
 import com.sybit.airtable.Base;
 import com.sybit.airtable.Table;
 import com.sybit.airtable.exception.AirtableException;
+import org.springframework.stereotype.Service;
 
 
 import java.lang.reflect.InvocationTargetException;

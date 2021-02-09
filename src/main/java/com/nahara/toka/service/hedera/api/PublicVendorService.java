@@ -8,7 +8,8 @@ import com.sybit.airtable.Base;
 import com.sybit.airtable.Table;
 import com.sybit.airtable.exception.AirtableException;
 
-public class PublicVendorService {
+public class
+PublicVendorService {
     Airtable airtable = new Airtable().configure("keykefT9YD5rhkuFg");
     Base base = airtable.base("appg4L9uWpNhonYHS");
     Table<PublicVendor> vendorPublicTable = base.table("Vendors", PublicVendor.class);

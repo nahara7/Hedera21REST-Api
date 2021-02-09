@@ -17,8 +17,12 @@ import java.util.concurrent.TimeoutException;
 
 public class AccountAsyncService {
     Airtable airtable = new Airtable().configure("keykefT9YD5rhkuFg");
+    private static final String ADMINACCOUNTID= ""+System.getenv("NAHARA_ACCOUNT_ID");
+    private static final String ADMINPRIVATEKEY= ""+System.getenv("NAHARA_PRIVATE_KEY");
     Base base = airtable.base("appg4L9uWpNhonYHS");
     Table<Account> accountTable = base.table("Accounts", Account.class);
+    Table<PublicUser> userTable = base.table("Users", PublicUser.class);
+    Table<PublicVendor> vendorTable = base.table("Vendors", PublicVendor.class);
 
     public AccountAsyncService() throws AirtableException {
     }
@@ -36,15 +40,16 @@ public class AccountAsyncService {
     }
 
     @Async
-    public String getAccountBalance(PublicUser user) {
-
+    //not a string !
+    public AccountBalance getUserAccountBalance(String userId) throws AirtableException {
+       PublicUser user=userTable.find(userId);
         Client client = Client.forTestnet();
         AccountBalance accountBalance;
 
         log.info("{}", "getting user account balance...");
         try {
-            client.setOperator(AccountId.fromString(user.getAccountid()),
-                    PrivateKey.fromString(user.getPrivateKey()));
+            client.setOperator(AccountId.fromString(ADMINACCOUNTID),
+                    PrivateKey.fromString(ADMINPRIVATEKEY));
 
             AccountBalanceQuery query = new AccountBalanceQuery()
                     .setAccountId(AccountId.fromString(user.getAccountid()));
@@ -54,20 +59,21 @@ public class AccountAsyncService {
             e.printStackTrace();
             return null;
         }
-        return CompletableFuture.completedFuture(accountBalance.toString())
+        return CompletableFuture.completedFuture(accountBalance)
                 .getNow(null);
     }
 
     @Async
-    public String getAccountBalance(PublicVendor vendor) {
-
+    //not a string !
+    public AccountBalance getVendorAccountBalance(String vendorId) throws AirtableException {
+        PublicVendor vendor=vendorTable.find(vendorId);
         Client client = Client.forTestnet();
         AccountBalance accountBalance;
 
         log.info("{}", "getting  vendor account balance...");
         try {
-            client.setOperator(AccountId.fromString(vendor.getAccountid()),
-                    PrivateKey.fromString(vendor.getPrivateKey()));
+            client.setOperator(AccountId.fromString(ADMINACCOUNTID),
+                    PrivateKey.fromString(ADMINPRIVATEKEY));
 
             AccountBalanceQuery query = new AccountBalanceQuery()
                     .setAccountId(AccountId.fromString(vendor.getAccountid()));
@@ -77,22 +83,45 @@ public class AccountAsyncService {
             e.printStackTrace();
             return null;
         }
-        return CompletableFuture.completedFuture(accountBalance.toString())
+        return CompletableFuture.completedFuture(accountBalance)
                 .getNow(null);
     }
 
     @Async
     //not a string !
-    public AccountInfo getAccountInfo(PublicUser user) {
+    public AccountInfo getUserHederaAccountInfo(String userId) throws AirtableException {
+        PublicUser user= userTable.find(userId);
         Client client = Client.forTestnet();
         AccountInfo accountInfo;
         log.info("{}", "user account information");
         try {
-            client.setOperator(AccountId.fromString(user.getAccountid()),
-                    PrivateKey.fromString(user.getPrivateKey()));
+            client.setOperator(AccountId.fromString(ADMINACCOUNTID),
+                    PrivateKey.fromString(ADMINPRIVATEKEY));
 
             AccountInfoQuery query = new AccountInfoQuery()
                     .setAccountId(AccountId.fromString(user.getAccountid()));
+
+            accountInfo = query.execute(client);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return CompletableFuture.completedFuture(accountInfo)
+                .getNow(null);
+    }
+    public AccountInfo getVendorHederaAccountInfo(String vendorId) throws AirtableException {
+        PublicVendor vendor=vendorTable.find(vendorId);
+
+        Client client = Client.forTestnet();
+        AccountInfo accountInfo;
+        log.info("{}", "user account information");
+        try {
+            client.setOperator(AccountId.fromString(ADMINACCOUNTID),
+                    PrivateKey.fromString(ADMINPRIVATEKEY));
+
+            AccountInfoQuery query = new AccountInfoQuery()
+                    .setAccountId(AccountId.fromString(vendor.getAccountid()));
 
             accountInfo = query.execute(client);
 

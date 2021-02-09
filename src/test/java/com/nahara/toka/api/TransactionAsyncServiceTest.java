@@ -37,11 +37,11 @@ class TransactionAsyncServiceTest {
 
     @Test
     void tokenAssociate() throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException {
-        TransactionReceipt receiptUser=transactionAsyncService.AssociatingToken(user, tokenId.toString());
-        System.out.println(receiptUser.toString());
+        //TransactionReceipt receiptUser=transactionAsyncService.AssociatingToken(user, tokenId.toString());
+        //System.out.println(receiptUser.toString());
 
-        TransactionReceipt receiptVendor=transactionAsyncService.AssociatingToken(vendor, tokenId.toString());
-        System.out.println(receiptVendor.toString());
+        //TransactionReceipt receiptVendor=transactionAsyncService.AssociatingToken(vendor, tokenId.toString());
+        //System.out.println(receiptVendor.toString());
     }
 
     @Test
@@ -97,7 +97,7 @@ class TransactionAsyncServiceTest {
 
     }
     @Test
-    void vendorPromotion() throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException {
+    void vendorPromotion() throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException, AirtableException {
         User user = new User();
         user.setPrivateKey();
         user.setPublickey();
@@ -116,7 +116,7 @@ class TransactionAsyncServiceTest {
     }
 
     @Test
-    void cashBack() throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException {
+    void cashBack() throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException, AirtableException {
         User user = new User();
         user.setPrivateKey();
         user.setPublickey();
@@ -128,7 +128,7 @@ class TransactionAsyncServiceTest {
         vendor.setAccountid();
 
         TransactionAsyncService service = new TransactionAsyncService();
-        TransactionReceipt receipt = service.cashBack(user, vendor, 5, (int) 10);
-        System.out.println(receipt.status);
+        //TransactionReceipt receipt = service.cashBack(user, vendor, 5, (int) 10);
+        //System.out.println(receipt.status);
     }
 }
