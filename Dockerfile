@@ -11,7 +11,5 @@ RUN mvn package
 
 ### improvement: multi-stage docker build
 
-## expose our port
-EXPOSE 8080
-## run the compiled jar
-ENTRYPOINT ["java","-jar","target/toka.jar"]
+## run the compiled jar on the correct port
+ENTRYPOINT ["java","-jar","target/toka.jar","--server.port=$ENV"]
