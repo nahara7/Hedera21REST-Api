@@ -12,4 +12,4 @@ RUN mvn package
 ### improvement: multi-stage docker build
 
 ## run the compiled jar on the correct port
-ENTRYPOINT ["java","-jar","--Dserver.port=$PORT","target/toka.jar"]
+ENTRYPOINT ["java","-jar","target/toka.jar"]
