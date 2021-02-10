@@ -1,8 +1,8 @@
-/*package com.nahara.toka.error;
+package com.nahara.toka.error;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import org.springframework.dao.DataIntegrityViolationException;
+//import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,7 +24,7 @@ class GlobalControllerExceptionHandler {
                             new Date(),
                             HttpStatus.INTERNAL_SERVER_ERROR.toString(),
                             ex.getMessage(),
-                            req.getDescription(false));
+                            req.getDescription(true));
 
             return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -44,7 +44,7 @@ class GlobalControllerExceptionHandler {
 
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
+    /*@ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<?> dataIntegrityViolationExceptionHandler(Exception ex, WebRequest req) {
         Error errorDetails =
                 new Error(
@@ -54,7 +54,7 @@ class GlobalControllerExceptionHandler {
                         "duplicate error - user exists");
 
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
 
 
     @ExceptionHandler(Exception.class)
@@ -69,4 +69,4 @@ class GlobalControllerExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-}*/
+}

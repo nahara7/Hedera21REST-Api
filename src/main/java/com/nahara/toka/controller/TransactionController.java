@@ -1,5 +1,7 @@
 package com.nahara.toka.controller;
 import com.hedera.hashgraph.sdk.*;
+//import com.nahara.toka.error.NoSuchElementFoundException;
+import com.nahara.toka.error.ResourceNotFoundException;
 import com.nahara.toka.model.*;
 import com.nahara.toka.model.Transaction;
 import com.nahara.toka.service.hedera.api.*;
@@ -7,8 +9,15 @@ import com.sybit.airtable.exception.AirtableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.concurrent.TimeoutException;
 
 @RestController
@@ -97,8 +106,6 @@ public class TransactionController {
         TransactionReceipt receipt=transactionAsyncService.cashBack(user, vendor,cashBack.getTotal());
         return ResponseEntity.ok().body(receipt);
     }
-
-
 }
 
 

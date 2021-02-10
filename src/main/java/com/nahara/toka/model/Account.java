@@ -28,10 +28,26 @@ public class Account {
     private String lastname;
     @SerializedName("email")
     private String email;
-    @SerializedName("vendorId")
-    private String vendorId;
-    @SerializedName("userId")
-    private String userId;
+    @SerializedName("userIdAccess")
+    private String userIdAccess;
+    @SerializedName("vendorIdAccess")
+    private String vendorIdAccess;
+
+    public String getUserIdAccess() {
+        return userIdAccess;
+    }
+
+    public void setUserIdAccess(String userIdAccess) {
+        this.userIdAccess = userIdAccess;
+    }
+
+    public String getVendorIdAccess() {
+        return vendorIdAccess;
+    }
+
+    public void setVendorIdAccess(String vendorIdAccess) {
+        this.vendorIdAccess = vendorIdAccess;
+    }
 
     public String getUsername() {
         return username;
@@ -73,20 +89,6 @@ public class Account {
         this.email = email;
     }
 
-    public String getVendorId() {
-        return vendorId;
-    }
 
-    public void setVendorId(String vendorId) {
-        this.vendorId = vendorId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 }
 

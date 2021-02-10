@@ -5,6 +5,8 @@ import com.hedera.hashgraph.sdk.HederaReceiptStatusException;
 import com.nahara.toka.model.*;
 import com.nahara.toka.service.hedera.api.*;
 import com.sybit.airtable.exception.AirtableException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.InvocationTargetException;
@@ -25,6 +27,8 @@ public class BaseController {
     private PublicUserService publicUserService= new PublicUserService();
     private AccountAsyncService accountAsyncService = new AccountAsyncService();
 
+    private static Logger log = LoggerFactory.getLogger(AccountAsyncService.class);
+
     public BaseController() throws AirtableException {
     }
 
@@ -39,6 +43,7 @@ public class BaseController {
         Account account= new Account();
         account.setUsername(user.getUsername());
         account.setPassword(user.getPassword());
+        account.setUserIdAccess(newUser.getUserId());
         Account newAccount= accountAsyncService.createAccount(account);
 
         return ResponseEntity.ok().body(publicUserService.findUser(newUser.getUserId()));
@@ -55,10 +60,9 @@ public class BaseController {
         //will only be used at registration
         Account account= new Account();
         account.setUsername(vendor.getUsername());
-        account.setVendorId(vendor.getVendorId());
         account.setEmail(vendor.getEmail());
         account.setPassword(vendor.getPassword());
-
+        account.setVendorIdAccess(newVendor.getVendorId());
         Account newAccount= accountAsyncService.createAccount(account);
         return ResponseEntity.ok().body(publicVendorService.findVendor(newVendor.getVendorId()));
 
