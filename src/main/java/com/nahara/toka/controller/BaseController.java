@@ -34,12 +34,13 @@ public class BaseController {
         user.setPublickey();
         user.setAccountid();
         User newUser= userService.createUser(user);
-
+        //creates account subsequently
+        //will only be used at registration
         Account account= new Account();
         account.setUsername(user.getUsername());
         account.setPassword(user.getPassword());
         Account newAccount= accountAsyncService.createAccount(account);
-        //System.out.println(publicUserService.findUser(newUser.getUserId()).getPrivateKey());
+
         return ResponseEntity.ok().body(publicUserService.findUser(newUser.getUserId()));
     }
     @PostMapping("/createVendor")
@@ -50,7 +51,8 @@ public class BaseController {
         vendor.setAccountid();
         Vendor newVendor=vendorService.createVendor(vendor);
 
-        //create account
+        //creates account subsequently
+        //will only be used at registration
         Account account= new Account();
         account.setUsername(vendor.getUsername());
         account.setVendorId(vendor.getVendorId());
@@ -58,10 +60,6 @@ public class BaseController {
         account.setPassword(vendor.getPassword());
 
         Account newAccount= accountAsyncService.createAccount(account);
-
-
-        //System.out.println(publicVendorService.findVendor(newVendor.getVendorId()).getPrivateKey());
-
         return ResponseEntity.ok().body(publicVendorService.findVendor(newVendor.getVendorId()));
 
     }

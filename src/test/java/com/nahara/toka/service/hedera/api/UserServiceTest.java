@@ -36,7 +36,7 @@ class UserServiceTest {
 
         TransactionAsyncService transactionAsyncService= new TransactionAsyncService();
         PublicUser publicUser=publicUserService.findUser("recPCBBdTmPgj2XEX");
-        TransactionReceipt receipt= transactionAsyncService.AssociatingToken("recAJZUgme5APnmSt",JVT );
+        TransactionReceipt receipt= transactionAsyncService.userAssociatingToken("recAJZUgme5APnmSt",JVT );
 
     }
 }

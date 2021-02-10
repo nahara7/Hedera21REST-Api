@@ -25,7 +25,9 @@ public class PublicVendor {
     private String email;
     @SerializedName("accountID")
     private String accountid;
-    public String publickey;
+    @SerializedName("publicKey")
+    private String publickey;
+
     public String privatekey;
     @SerializedName("walletKey")
     private String walletKey;

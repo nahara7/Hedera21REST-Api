@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.concurrent.CompletableFuture;
+//Used for admin initial deposit,
+//finding admin initial balance
+//and admin account information
 
 public class AdminAsyncService {
 
@@ -38,7 +41,7 @@ public class AdminAsyncService {
 
     //these queries cost !
     @Async()
-    public String adminAccountBalance(){
+    public AccountBalance adminAccountBalance(){
 
         Client client = Client.forTestnet();
         AccountBalance accountBalance;
@@ -55,7 +58,7 @@ public class AdminAsyncService {
             e.printStackTrace();
             return null;
         }
-        return CompletableFuture.completedFuture(accountBalance.toString())
+        return CompletableFuture.completedFuture(accountBalance)
                 .getNow(null);
     }
     @Async()
@@ -71,7 +74,6 @@ public class AdminAsyncService {
 
             client.setOperator(AccountId.fromString(ADMINACCOUNTID),
                     PrivateKey.fromString(ADMINPRIVATEKEY));
-            //(Objects.requireNonNull(System.getenv("my_private_key"))));
             TransferTransaction transaction = new TransferTransaction()
                     .addTokenTransfer
                             (tokenId,(AccountId.fromString(ADMINACCOUNTID)), -25)

@@ -19,9 +19,8 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 
-@Service
+
 public class TransactionAsyncService {
-    //private TransactionReceipt receipt;
     public TransactionAsyncService() throws AirtableException {
     }
     //for Token
@@ -29,10 +28,13 @@ public class TransactionAsyncService {
     private Hedera hedera;
 
 
-     PublicUserService publicUserService= new PublicUserService();
+
     private static final String ADMINACCOUNTID= ""+System.getenv("NAHARA_ACCOUNT_ID");
     private static final String ADMINPRIVATEKEY= ""+System.getenv("NAHARA_PRIVATE_KEY");
     private static final String JVT=""+ System.getenv("JVT_TOKEN_ID");
+
+    PublicUserService publicUserService= new PublicUserService();
+    PublicVendorService publicVendorService= new PublicVendorService();
 
     public TransactionAsyncService(Hedera hedera) throws AirtableException {
         this.hedera = hedera;
@@ -58,7 +60,6 @@ public class TransactionAsyncService {
             token.setInitialsupply(initialSupply);
             log.info("{}", "token created " + tokenId);
 
-            //} catch (TimeoutException|HederaReceiptStatusException|HederaPreCheckStatusException e) {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -73,32 +74,20 @@ public class TransactionAsyncService {
     public TransactionReceipt transactionUserVendor(PublicUser user, PublicVendor vendor, long fee) throws StringIndexOutOfBoundsException, TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
         Client client = Client.forTestnet();
         TransactionReceipt receipt;
-        //Token token = new Token();
+
         log.info("{}", "Transferring tokens...");
         try {
-            //Attribute JVT
-            TokenId tokenId = com.hedera.hashgraph.sdk.TokenId.fromString("0.0.307812");
 
+            TokenId tokenId = com.hedera.hashgraph.sdk.TokenId.fromString("0.0.307812");
             client.setOperator(AccountId.fromString(user.getAccountid()),
-                    //make take in the feee
                     PrivateKey.fromString(user.getPrivateKey()));
-            //(Objects.requireNonNull(System.getenv("my_private_key"))));
             TransferTransaction transaction = new TransferTransaction()
                     .addTokenTransfer
-                            (tokenId, AccountId.fromString(user.getAccountid()), -2)
-
+                            (tokenId, AccountId.fromString(user.getAccountid()), -fee)
                     .addTokenTransfer
-                            (tokenId, AccountId.fromString(vendor.getAccountid()),2);
+                            (tokenId, AccountId.fromString(vendor.getAccountid()),fee);
             TransactionResponse response=transaction.execute(client);
-
             receipt=response.getReceipt(client);
-
-            /*TransferTransaction txId = transaction.
-                    freezeWith(client).sign(PrivateKey.fromString
-                    (user.getPrivateKey()));
-            txId.execute(client);
-            TransactionId tId = txId.getTransactionId();
-            receipt = tId.getReceipt(client);*/
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -113,7 +102,6 @@ public class TransactionAsyncService {
     public TransactionReceipt vendorPromotion(User user, Vendor vendor, Long promo, String memo) throws StringIndexOutOfBoundsException, TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
         TransactionReceipt receipt;
         Client client = Client.forTestnet();
-        //Token token = new Token();
         log.info("{}", "promotion...");
         try {
             client.setOperator(AccountId.fromString(ADMINACCOUNTID),
@@ -126,7 +114,6 @@ public class TransactionAsyncService {
                     sign(PrivateKey.fromString(vendor.getPrivateKey()));
             txId.execute(client);
             TransactionId tId = txId.getTransactionId();
-            //this.record=tId.getRecord(client);
             receipt = tId.getReceipt(client);
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,15 +122,9 @@ public class TransactionAsyncService {
         return CompletableFuture.completedFuture(receipt)
                 .getNow(null);
     }
-    @Async
-    public TransactionReceipt adminDeposit(PublicUser user){
-        TransactionReceipt receipt=null;
-        return receipt;
-    }
 
-    @Async
-    //check this !
-    //Update Client
+
+    @Async()
     public TransactionReceipt cashBack(PublicUser user, PublicVendor vendor, long total) throws StringIndexOutOfBoundsException, TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
         TransactionReceipt receipt;
         Client client = Client.forTestnet();
@@ -151,7 +132,7 @@ public class TransactionAsyncService {
         log.info("{}", "cashback...");
         try {
             client.setOperator(AccountId.fromString(ADMINACCOUNTID),
-                    PrivateKey.fromString(ADMINACCOUNTID));
+                    PrivateKey.fromString(ADMINPRIVATEKEY));
             TransferTransaction transfer = new TransferTransaction()
                     .addTokenTransfer(TokenId.fromString(JVT), AccountId.fromString
                             (vendor.getAccountid()), ((long) -(fee)))
@@ -173,7 +154,6 @@ public class TransactionAsyncService {
     @Async()
     public AccountId accountCreateTransaction(String publickey) throws TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
         log.info("{}", "account create...");
-        //my env variables
         TransactionReceipt receipt;
         try {
             Client client = Client.forTestnet();
@@ -198,7 +178,7 @@ public class TransactionAsyncService {
     }
 
     @Async()
-    public TransactionReceipt AssociatingToken(String userId, String tokenId) throws AirtableException {
+    public TransactionReceipt userAssociatingToken(String userId, String tokenId) throws AirtableException {
         PublicUser user =publicUserService.findUser(userId);
         log.info("{}", "creating client");
         Client client = Client.forTestnet();
@@ -227,11 +207,12 @@ public class TransactionAsyncService {
         }
     //NOTE CORRESPONDING TOKEN BALANCE MUST BE AT 0 TO DISASSOCIATE!
     @Async()
-    public TransactionReceipt AssociatingToken(PublicVendor vendor, String tokenId) {
+    public TransactionReceipt vendorAssociatingToken(String vendorId, String tokenId) throws AirtableException {
+        PublicVendor vendor = publicVendorService.findVendor(vendorId);
         Client client = Client.forTestnet();
         AccountInfo accountInfo;
         TransactionReceipt receipt;
-        log.info("{}", "associating token to user");
+        log.info("{}", "associating token to vendor");
         try {
 
             client.setOperator(AccountId.fromString(ADMINACCOUNTID),
@@ -254,7 +235,8 @@ public class TransactionAsyncService {
     }
         //NOTE CORRESPONDING TOKEN BALANCE MUST BE AT 0 TO DISASSOCIATE!
         @Async()
-        public TransactionReceipt disassociatingToken(PublicUser user, String tokenId) {
+        public TransactionReceipt userDisassociatingToken(String userId, String tokenId) throws AirtableException {
+        PublicUser user =publicUserService.findUser(userId);
         Client client = Client.forTestnet();
         TransactionReceipt receipt;
         log.info("{}", "disassociating token from user");
@@ -277,6 +259,34 @@ public class TransactionAsyncService {
         }
         return CompletableFuture.completedFuture(receipt)
                 .getNow(null);
+       }
+    //NOTE CORRESPONDING TOKEN BALANCE MUST BE AT 0 TO DISASSOCIATE!
+    @Async()
+    public TransactionReceipt vendorDisassociatingToken(String vendorId, String tokenId) throws AirtableException {
+        PublicVendor vendor = publicVendorService.findVendor(vendorId);
+        Client client = Client.forTestnet();
+        TransactionReceipt receipt;
+        log.info("{}", "disassociating token from user");
+        try {
+
+            client.setOperator(AccountId.fromString(vendor.getAccountid()),
+                    PrivateKey.fromString(vendor.getPrivateKey()));
+
+            TokenDissociateTransaction transaction = new TokenDissociateTransaction()
+                    .setAccountId(AccountId.fromString(vendor.getAccountid()))
+                    .setTokenIds(TokenId.fromString(tokenId));
+
+            TransactionResponse txResponse = transaction.freezeWith(client).sign
+                    (PrivateKey.fromString(vendor.getPrivateKey())).execute(client);
+            receipt = txResponse.getReceipt(client);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return CompletableFuture.completedFuture(receipt)
+                .getNow(null);
     }
-    }
+
+}
 

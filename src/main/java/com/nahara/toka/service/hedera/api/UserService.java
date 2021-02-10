@@ -9,8 +9,6 @@ import com.sybit.airtable.Airtable;
 import com.sybit.airtable.Base;
 import com.sybit.airtable.Table;
 import com.sybit.airtable.exception.AirtableException;
-
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeoutException;
 
@@ -31,8 +29,6 @@ public class UserService {
         User newUser= userTable.create(user);
         return newUser;
     }
-
-    //entity wrap
     public User findUser(String Id) throws AirtableException {
         return userTable.find(Id);
     }

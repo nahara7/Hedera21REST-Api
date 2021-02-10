@@ -16,13 +16,20 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 
 public class AccountAsyncService {
-    Airtable airtable = new Airtable().configure("keykefT9YD5rhkuFg");
-    private static final String ADMINACCOUNTID= ""+System.getenv("NAHARA_ACCOUNT_ID");
-    private static final String ADMINPRIVATEKEY= ""+System.getenv("NAHARA_PRIVATE_KEY");
-    Base base = airtable.base("appg4L9uWpNhonYHS");
+
+    private static final String TOKAAIR = ""+System.getenv("TOKAAIR");
+    private static final String TOKABASE = ""+System.getenv("TOKABASE");
+    private static final String JVT=""+ System.getenv("JVT_TOKEN_ID");
+
+    Airtable airtable = new Airtable().configure(TOKAAIR);
+    Base base = airtable.base(TOKABASE);
+
     Table<Account> accountTable = base.table("Accounts", Account.class);
     Table<PublicUser> userTable = base.table("Users", PublicUser.class);
     Table<PublicVendor> vendorTable = base.table("Vendors", PublicVendor.class);
+
+    private static final String ADMINACCOUNTID= ""+System.getenv("NAHARA_ACCOUNT_ID");
+    private static final String ADMINPRIVATEKEY= ""+System.getenv("NAHARA_PRIVATE_KEY");
 
     public AccountAsyncService() throws AirtableException {
     }
@@ -90,10 +97,15 @@ public class AccountAsyncService {
     @Async
     //not a string !
     public AccountInfo getUserHederaAccountInfo(String userId) throws AirtableException {
+        log.info("{}", "getting  vendor account balance...");
         PublicUser user= userTable.find(userId);
+
         Client client = Client.forTestnet();
         AccountInfo accountInfo;
         log.info("{}", "user account information");
+        System.out.println(user.getPublicKey());
+        System.out.println(user.getUsername());
+        System.out.println(user.getPrivateKey());
         try {
             client.setOperator(AccountId.fromString(ADMINACCOUNTID),
                     PrivateKey.fromString(ADMINPRIVATEKEY));

@@ -16,7 +16,6 @@ import java.util.concurrent.TimeoutException;
 //@CrossOrigin(origins = "")
 public class TransactionController {
 
-    //log.info("{}","token end point..." + token.getName());
 
     private static Logger log = LoggerFactory.getLogger(TransactionController.class);
 
@@ -47,14 +46,12 @@ public class TransactionController {
 
         log.info("{}","new token id..." + newToken.getTokenid());
 
-        //tokenRepository.save(newToken);
+
 
         return ResponseEntity.ok().body(newToken);
     }
     @PostMapping("/userVendor")
     //sends back receipt
-    //update sending back record
-
     public ResponseEntity<TransactionReceipt> transactionUserVendor(@RequestBody Transaction transaction) throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException, AirtableException {
            PublicUser user= publicUserService.findUser(transaction.getUserId());
            PublicVendor vendor=publicVendorService.findVendor(transaction.getVendorId());
@@ -65,12 +62,12 @@ public class TransactionController {
 
 
     }
-    @PostMapping("/initialize")
+    @PostMapping("/user/initialize")
     public String initialize(@RequestBody Id userId) throws AirtableException {
         System.out.println(userId.getBaseId());
         System.out.println(JVT);
         String baseId=userId.getBaseId();
-        TransactionReceipt receipt= transactionAsyncService.AssociatingToken(baseId, JVT);
+        TransactionReceipt receipt= transactionAsyncService.userAssociatingToken(baseId, JVT);
         adminAsyncService.adminDeposit(userId.getBaseId());
         AccountBalance accountBalance= accountAsyncService.getUserAccountBalance(userId.getBaseId());
 
@@ -93,7 +90,7 @@ public class TransactionController {
     }
 
 
-    @PostMapping("/cashback)")
+    @PostMapping("/cashBack")
     public ResponseEntity<TransactionReceipt> cashBack( @RequestBody CashBack cashBack ) throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException, AirtableException {
         PublicUser user= publicUserService.findUser(cashBack.getUserId());
         PublicVendor vendor=publicVendorService.findVendor(cashBack.getVendorId());

@@ -11,13 +11,14 @@ import java.util.concurrent.TimeoutException;
 
 @Component("Hedera")
 public class Hedera {
+//creates any token
 
     private static Logger log = LoggerFactory.getLogger(Hedera.class);
 
     @Autowired
     private Environment env;
 
-    //update
+
     private static final String HEDERA_API_ACCOUNT_ID = ""+System.getenv("NAHARA_ACCOUNT_ID");
     private static final String HEDERA_API_PRIVATE_KEY = ""+System.getenv("NAHARA_PRIVATE_KEY");
 

@@ -4,6 +4,7 @@ package com.nahara.toka.service.hedera.api;
 import com.hedera.hashgraph.sdk.HederaPreCheckStatusException;
 import com.hedera.hashgraph.sdk.HederaReceiptStatusException;
 import com.hedera.hashgraph.sdk.PrivateKey;
+import com.nahara.toka.model.PublicVendor;
 import com.nahara.toka.model.Vendor;
 import com.sybit.airtable.Airtable;
 import com.sybit.airtable.Base;
@@ -15,9 +16,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeoutException;
 
 public class VendorService {
-    Airtable airtable= new Airtable().configure("keykefT9YD5rhkuFg");
-    Base base = airtable.base("appg4L9uWpNhonYHS");
-    Table<Vendor> vendorTable = base.table("Vendors", Vendor.class);
+    private static final String TOKAAIR = ""+System.getenv("TOKAAIR");
+    private static final String TOKABASE = ""+System.getenv("TOKABASE");
+    private static final String JVT=""+ System.getenv("JVT_TOKEN_ID");
+
+    Airtable airtable = new Airtable().configure(TOKAAIR);
+    Base base = airtable.base(TOKABASE);
+    public Table<Vendor> vendorTable = base.table("Vendors", Vendor.class);
+
 
     public VendorService() throws AirtableException {
     }
@@ -30,7 +36,6 @@ public class VendorService {
     public void deleteVendor(String Id) throws AirtableException {
         vendorTable.destroy(Id);
     }
-    //entity wrap
     public Vendor findVendor(String Id) throws AirtableException {
         return vendorTable.find(Id);
     }
@@ -38,14 +43,4 @@ public class VendorService {
         return vendorTable.update(vendor);
 
     }
-    public Vendor findVendorByAccountId(String accountId) throws AirtableException {
-        //inaccurate
-
-        return vendorTable.find(accountId);
-    }
-
-    public Vendor findVendorByEmail(Vendor vendor) throws AirtableException {
-        return vendorTable.find(vendor.getEmail());
-    }
-
 }
