@@ -1,9 +1,7 @@
 package com.nahara.toka.controller;
 
 
-import com.hedera.hashgraph.sdk.AccountBalance;
-import com.hedera.hashgraph.sdk.AccountInfo;
-import com.hedera.hashgraph.sdk.TransactionReceipt;
+import com.hedera.hashgraph.sdk.*;
 import com.nahara.toka.model.*;
 import com.nahara.toka.service.hedera.api.*;
 import com.sybit.airtable.exception.AirtableException;
@@ -11,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1.0/account")
@@ -31,19 +31,17 @@ public class AccountController {
     public AccountController() throws AirtableException {
     }
 
-    @GetMapping("/hedera/user")
-    public AccountInfo getUserHederaAccountInfo(@RequestBody Id userId) throws AirtableException {
+    @GetMapping("/hedera/userTokenRelationships")
+    public ResponseEntity<Map<TokenId, TokenRelationship>> getUserTokenRelationships(@RequestBody Id userId) throws AirtableException {
         log.info("{}", "finding User");
         System.out.println(userId.getBaseId());
-        return accountAsyncService.getUserHederaAccountInfo(userId.getBaseId());
+        return ResponseEntity.ok().body( accountAsyncService.getUserHederaAccountInfo(userId.getBaseId()).tokenRelationships);
     }
 
-    @GetMapping("/hedera/vendor")
-    public ResponseEntity<AccountInfo> getVendorHederaAccountInfo(@RequestBody Id userId) throws AirtableException {
+    @GetMapping("/hedera/vendorTokenRelationships")
+    public ResponseEntity<Map<TokenId, TokenRelationship>> getVendorTokenRelationships(@RequestBody Id vendorId) throws AirtableException {
         log.info("{}", "finding Vendor");
-        AccountInfo accountInfo = accountAsyncService.getVendorHederaAccountInfo(userId.getBaseId());
-
-        return ResponseEntity.ok().body(accountInfo);
+        return ResponseEntity.ok().body(accountAsyncService.getVendorHederaAccountInfo(vendorId.getBaseId()).tokenRelationships);
     }
 
     @GetMapping("/userBalance")

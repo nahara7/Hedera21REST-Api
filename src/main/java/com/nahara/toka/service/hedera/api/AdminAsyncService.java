@@ -80,7 +80,7 @@ public class AdminAsyncService {
                     .addTokenTransfer
                             (tokenId, AccountId.fromString(user.getAccountid()),25);
             TransactionResponse response=transaction.execute(client);
-
+            log.info("admin deposited 25 tokens");
             receipt=response.getReceipt(client);
 
         } catch (Exception e) {

@@ -94,7 +94,7 @@ public class AccountAsyncService {
                 .getNow(null);
     }
 
-    @Async
+    @Async()
     //not a string !
     public AccountInfo getUserHederaAccountInfo(String userId) throws AirtableException {
         log.info("{}", "getting  vendor account balance...");
@@ -103,9 +103,9 @@ public class AccountAsyncService {
         Client client = Client.forTestnet();
         AccountInfo accountInfo;
         log.info("{}", "user account information");
-        System.out.println(user.getPublicKey());
-        System.out.println(user.getUsername());
-        System.out.println(user.getPrivateKey());
+        //System.out.println(user.getPublicKey());
+        //System.out.println(user.getUsername());
+        //System.out.println(user.getPrivateKey());
         try {
             client.setOperator(AccountId.fromString(ADMINACCOUNTID),
                     PrivateKey.fromString(ADMINPRIVATEKEY));

@@ -2,6 +2,7 @@ package com.nahara.toka.controller;
 
 import com.hedera.hashgraph.sdk.HederaPreCheckStatusException;
 import com.hedera.hashgraph.sdk.HederaReceiptStatusException;
+import com.hedera.hashgraph.sdk.TransactionReceipt;
 import com.nahara.toka.model.*;
 import com.nahara.toka.service.hedera.api.*;
 import com.sybit.airtable.exception.AirtableException;
@@ -26,8 +27,10 @@ public class BaseController {
     private PublicVendorService publicVendorService= new PublicVendorService();
     private PublicUserService publicUserService= new PublicUserService();
     private AccountAsyncService accountAsyncService = new AccountAsyncService();
-
+    private AdminAsyncService adminAsyncService= new AdminAsyncService();
+    private TransactionAsyncService transactionAsyncService= new TransactionAsyncService();
     private static Logger log = LoggerFactory.getLogger(AccountAsyncService.class);
+    private static final String JVT=""+ System.getenv("JVT_TOKEN_ID");
 
     public BaseController() throws AirtableException {
     }
@@ -44,8 +47,11 @@ public class BaseController {
         account.setUsername(user.getUsername());
         account.setPassword(user.getPassword());
         account.setUserIdAccess(newUser.getUserId());
-        Account newAccount= accountAsyncService.createAccount(account);
+        adminAsyncService.adminDeposit(newUser.getUserId());
 
+        Account newAccount= accountAsyncService.createAccount(account);
+        TransactionReceipt receipt= transactionAsyncService.userAssociatingToken(newUser.getUserId(), JVT);
+        log.info("associated user with JVT token");
         return ResponseEntity.ok().body(publicUserService.findUser(newUser.getUserId()));
     }
     @PostMapping("/createVendor")
@@ -63,7 +69,10 @@ public class BaseController {
         account.setEmail(vendor.getEmail());
         account.setPassword(vendor.getPassword());
         account.setVendorIdAccess(newVendor.getVendorId());
+
         Account newAccount= accountAsyncService.createAccount(account);
+        TransactionReceipt receipt= transactionAsyncService.vendorAssociatingToken(newVendor.getVendorId(), JVT);
+        log.info("associated vendor with JVT token");
         return ResponseEntity.ok().body(publicVendorService.findVendor(newVendor.getVendorId()));
 
     }
