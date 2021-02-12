@@ -69,6 +69,57 @@ public class TransactionAsyncService {
                 .getNow(null);
 
     }
+    @Async()
+    public TransactionReceipt transactionUserUSer(PublicUser sender, PublicUser recipient, long fee, String memo){
+        Client client=Client.forTestnet();
+        TransactionReceipt receipt;
+        log.info("{}", "Transferring tokens....");
+        try {
+
+            TokenId tokenId = com.hedera.hashgraph.sdk.TokenId.fromString("0.0.307812");
+            client.setOperator(AccountId.fromString(sender.getAccountid()),
+                    PrivateKey.fromString(sender.getPrivateKey()));
+            TransferTransaction transaction = new TransferTransaction()
+                    .addTokenTransfer
+                            (tokenId, AccountId.fromString(sender.getAccountid()), -fee)
+                    .addTokenTransfer
+                            (tokenId, AccountId.fromString(recipient.getAccountid()),fee)
+                    .setTransactionMemo(memo);
+            TransactionResponse response=transaction.execute(client);
+            receipt=response.getReceipt(client);
+         log.info("{}"+ memo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return CompletableFuture.completedFuture(receipt)
+                .getNow(null);
+    }
+
+    @Async()
+    public TransactionReceipt transactionUserUSer(PublicUser sender, PublicUser recipient, long fee){
+        Client client=Client.forTestnet();
+        TransactionReceipt receipt;
+          log.info("{}", "Transferring tokens....");
+        try {
+
+        TokenId tokenId = com.hedera.hashgraph.sdk.TokenId.fromString("0.0.307812");
+        client.setOperator(AccountId.fromString(sender.getAccountid()),
+                PrivateKey.fromString(sender.getPrivateKey()));
+        TransferTransaction transaction = new TransferTransaction()
+                .addTokenTransfer
+                        (tokenId, AccountId.fromString(sender.getAccountid()), -fee)
+                .addTokenTransfer
+                        (tokenId, AccountId.fromString(recipient.getAccountid()),fee);
+        TransactionResponse response=transaction.execute(client);
+        receipt=response.getReceipt(client);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+        return CompletableFuture.completedFuture(receipt)
+            .getNow(null);
+}
 
     @Async()
     public TransactionReceipt transactionUserVendor(PublicUser user, PublicVendor vendor, long fee) throws StringIndexOutOfBoundsException, TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
@@ -95,6 +146,33 @@ public class TransactionAsyncService {
         return CompletableFuture.completedFuture(receipt)
                 .getNow(null);
     }
+    @Async()
+    public TransactionReceipt transactionUserVendor(PublicUser user, PublicVendor vendor, long fee, String memo) throws StringIndexOutOfBoundsException, TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException {
+        Client client = Client.forTestnet();
+        TransactionReceipt receipt;
+
+        log.info("{}", "Transferring tokens...");
+        try {
+
+            TokenId tokenId = com.hedera.hashgraph.sdk.TokenId.fromString("0.0.307812");
+            client.setOperator(AccountId.fromString(user.getAccountid()),
+                    PrivateKey.fromString(user.getPrivateKey()));
+            TransferTransaction transaction = new TransferTransaction()
+                    .addTokenTransfer
+                            (tokenId, AccountId.fromString(user.getAccountid()), -fee)
+                    .addTokenTransfer
+                            (tokenId, AccountId.fromString(vendor.getAccountid()),fee)
+                    .setTransactionMemo(memo);
+            TransactionResponse response=transaction.execute(client);
+            receipt=response.getReceipt(client);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return CompletableFuture.completedFuture(receipt)
+                .getNow(null);
+    }
+
 
     @Async()
     //update client

@@ -13,12 +13,23 @@ public class Transaction {
     private String userId;
     private String vendorId;
     private long fee;
+    private String memo=null;
     //update promotion class
 
 
     public Transaction() {
     }
+    public Transaction(String userId, String vendorId, long fee, String memo) throws AirtableException {
+        UserService userService= new UserService();
+        VendorService vendorService=new VendorService();
+        TransactionAsyncService transactionAsyncService= new TransactionAsyncService();
+        this.userId=userId;
+        this.vendorId=vendorId;
+        this.fee=fee;
+        this.memo=memo;
 
+
+    }
     public Transaction(String userId, String vendorId, long fee) throws AirtableException {
         UserService userService= new UserService();
         VendorService vendorService=new VendorService();
@@ -52,6 +63,14 @@ public class Transaction {
 
     public void setFee(int fee) {
         this.fee = fee;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 
 

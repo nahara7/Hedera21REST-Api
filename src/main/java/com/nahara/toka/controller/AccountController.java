@@ -31,20 +31,20 @@ public class AccountController {
     public AccountController() throws AirtableException {
     }
 
-    @GetMapping("/hedera/userTokenRelationships")
+    @PostMapping("/hedera/userTokenRelationships")
     public ResponseEntity<Map<TokenId, TokenRelationship>> getUserTokenRelationships(@RequestBody Id userId) throws AirtableException {
         log.info("{}", "finding User");
         System.out.println(userId.getBaseId());
         return ResponseEntity.ok().body( accountAsyncService.getUserHederaAccountInfo(userId.getBaseId()).tokenRelationships);
     }
 
-    @GetMapping("/hedera/vendorTokenRelationships")
+    @PostMapping("/hedera/vendorTokenRelationships")
     public ResponseEntity<Map<TokenId, TokenRelationship>> getVendorTokenRelationships(@RequestBody Id vendorId) throws AirtableException {
         log.info("{}", "finding Vendor");
         return ResponseEntity.ok().body(accountAsyncService.getVendorHederaAccountInfo(vendorId.getBaseId()).tokenRelationships);
     }
 
-    @GetMapping("/userBalance")
+    @PostMapping("/userBalance")
     public ResponseEntity<AccountBalance> userBalance(@RequestBody Id userId) throws AirtableException {
 
         log.info("{}", "getting user account balance...");
@@ -53,14 +53,14 @@ public class AccountController {
 
     }
 
-    @GetMapping("/vendorBalance")
+    @PostMapping("/vendorBalance")
     public ResponseEntity<AccountBalance> getVendorBalance(@RequestBody Id vendorId) throws AirtableException {
 
         AccountBalance accountBalance = accountAsyncService.getVendorAccountBalance(vendorId.getBaseId());
         return ResponseEntity.ok().body(accountBalance);
     }
 
-    @GetMapping("/tokaAccount")
+    @PostMapping("/tokaAccount")
     public Account getTokaAccountInfo(@RequestBody Id tokaAccountId) throws AirtableException {
         log.info("{}", "getting account of" + tokaAccountId.getBaseId());
         return accountAsyncService.findAccount(tokaAccountId.getBaseId());
@@ -77,40 +77,50 @@ public class AccountController {
         TransactionReceipt receipt = transactionAsyncService.vendorAssociatingToken(vendorId.getBaseId(), JVT);
         return ResponseEntity.ok().body(receipt);
     }
-    @GetMapping("userPrivateKey")
+    @PostMapping("userPrivateKey")
     public String getUserPrivateKey(@RequestBody Id userId) throws AirtableException {
         PublicUser user=publicUserService.findUser(userId.getBaseId());
         return user.getPrivateKey().toString();
     }
-    @GetMapping("userPublicKey")
+    @PostMapping("userFirstName")
+    public String getUserFirstName(@RequestBody Id userId) throws AirtableException{
+        User user= userService.findUser(userId.getBaseId());
+        return user.getFirstname();
+    }
+    @PostMapping("userPublicKey")
     public String getUserPublicKey(@RequestBody Id userId) throws AirtableException {
         PublicUser user= publicUserService.findUser(userId.getBaseId());
         log.info("{}", "public key+" + user.getPublicKey());
         return user.getPublicKey();
     }
-    @GetMapping("userAccountId")
+    @PostMapping("userAccountId")
     public String getUserAccountId(@RequestBody Id userId) throws AirtableException {
         User user= userService.findUser(userId.getBaseId());
         return user.getAccountid();
     }
-    @GetMapping("vendorPrivateKey")
+    @PostMapping("vendorPrivateKey")
     public String getVendorPrivateKey(@RequestBody Id vendorId) throws AirtableException {
         PublicVendor vendor= publicVendorService.findVendor(vendorId.getBaseId());
         return vendor.getPrivateKey();
 
     }
-    @GetMapping("vendorPublicKey")
+    @PostMapping("vendorPublicKey")
     public String getVendorPublicKey(@RequestBody Id vendorId) throws AirtableException {
           //Vendor vendor=vendorService.findVendor(vendorId.getBaseId());
           PublicVendor vendor= publicVendorService.findVendor(vendorId.getBaseId());
           return vendor.getPublicKey();
     }
-    @GetMapping("vendorAccountId")
+    @PostMapping("vendorShopName")
+    public String getVendorShopName(@RequestBody Id vendorId) throws AirtableException{
+        Vendor vendor= vendorService.findVendor(vendorId.getBaseId());
+        return vendor.getVendorShopName();
+    }
+    @PostMapping("vendorAccountId")
     public String getVendorAccountId(@RequestBody Id vendorId) throws AirtableException {
      Vendor vendor= vendorService.findVendor(vendorId.getBaseId());
      return vendor.getAccountid();
     }
-    @GetMapping("adminBalance")
+    @PostMapping("adminBalance")
     public ResponseEntity<AccountBalance> getAdminBalance(){
         AccountBalance accountBalance=adminAsyncService.adminAccountBalance();
         return ResponseEntity.ok().body(accountBalance);

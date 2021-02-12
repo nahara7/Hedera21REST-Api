@@ -36,6 +36,10 @@ public class Vendor {
     private String walletKey;
     @SerializedName("vendorId")
     private String vendorId;
+    @SerializedName("vendorShopName")
+    private String vendorShopName;
+
+
 
 
 
@@ -172,4 +176,11 @@ public class Vendor {
                 '}';
     }
 
+    public String getVendorShopName() {
+        return vendorShopName;
+    }
+
+    public void setVendorShopName(String vendorShopName) {
+        this.vendorShopName = vendorShopName;
+    }
 }

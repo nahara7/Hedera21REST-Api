@@ -59,23 +59,46 @@ public class TransactionController {
 
         return ResponseEntity.ok().body(newToken);
     }
+    @PostMapping("/userUser")
+    public ResponseEntity<TransactionReceipt> transactionUserUser(@RequestBody UserTransaction transaction ) throws AirtableException {
+        PublicUser sender = publicUserService.findUser(transaction.getSenderId());
+        PublicUser recipient = publicUserService.findUser(transaction.getRecipientId());
+        Long fee = transaction.getFee();
+        String memo = transaction.getMemo();
+        TransactionReceipt receipt;
+        if (memo != null) {
+            receipt = transactionAsyncService.transactionUserUSer(sender, recipient, fee, memo);
+        } else {
+
+             receipt = transactionAsyncService.transactionUserUSer(sender, recipient, fee);
+
+        }
+        return ResponseEntity.ok().body(receipt);
+    }
+
     @PostMapping("/userVendor")
     //sends back receipt
     public ResponseEntity<TransactionReceipt> transactionUserVendor(@RequestBody Transaction transaction) throws HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException, HederaReceiptStatusException, TimeoutException, HederaPreCheckStatusException, AirtableException {
            PublicUser user= publicUserService.findUser(transaction.getUserId());
            PublicVendor vendor=publicVendorService.findVendor(transaction.getVendorId());
            Long fee= transaction.getFee();
+           String memo=transaction.getMemo();
+           TransactionReceipt receipt;
 
-           TransactionReceipt receipt = transactionAsyncService.transactionUserVendor(user, vendor, fee);
-           return ResponseEntity.ok().body(receipt);
+           if(memo!=null){
+               receipt=transactionAsyncService.transactionUserVendor(user, vendor, fee, memo);
+           }else {
+               receipt = transactionAsyncService.transactionUserVendor(user, vendor, fee);
 
-
+           }
+        return ResponseEntity.ok().body(receipt);
     }
     @PostMapping("/user/initialize")
     public String initialize(@RequestBody Id userId) throws AirtableException {
         System.out.println(userId.getBaseId());
         System.out.println(JVT);
         String baseId=userId.getBaseId();
+
         TransactionReceipt receipt= transactionAsyncService.userAssociatingToken(baseId, JVT);
         adminAsyncService.adminDeposit(userId.getBaseId());
         AccountBalance accountBalance= accountAsyncService.getUserAccountBalance(userId.getBaseId());

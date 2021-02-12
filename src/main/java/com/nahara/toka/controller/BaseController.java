@@ -47,11 +47,13 @@ public class BaseController {
         account.setUsername(user.getUsername());
         account.setPassword(user.getPassword());
         account.setUserIdAccess(newUser.getUserId());
-        adminAsyncService.adminDeposit(newUser.getUserId());
+
 
         Account newAccount= accountAsyncService.createAccount(account);
         TransactionReceipt receipt= transactionAsyncService.userAssociatingToken(newUser.getUserId(), JVT);
+        adminAsyncService.adminDeposit(newUser.getUserId());
         log.info("associated user with JVT token");
+
         return ResponseEntity.ok().body(publicUserService.findUser(newUser.getUserId()));
     }
     @PostMapping("/createVendor")
@@ -73,6 +75,7 @@ public class BaseController {
         Account newAccount= accountAsyncService.createAccount(account);
         TransactionReceipt receipt= transactionAsyncService.vendorAssociatingToken(newVendor.getVendorId(), JVT);
         log.info("associated vendor with JVT token");
+        adminAsyncService.adminDeposit(newVendor.getVendorId());
         return ResponseEntity.ok().body(publicVendorService.findVendor(newVendor.getVendorId()));
 
     }
