@@ -8,6 +8,7 @@ import com.nahara.toka.service.hedera.api.*;
 import com.sybit.airtable.exception.AirtableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.InvocationTargetException;
@@ -17,18 +18,23 @@ import java.util.concurrent.TimeoutException;
 @RestController
 @RequestMapping("api/v1.0/")
 //@CrossOrigin(origins = "")
-//when accessing the Public User and Public Vendor you just need
-//to send over the userId or vendorID
-//remember to delete and update accounts as well !
 public class BaseController {
+    @Autowired
+    TransactionAsyncService transactionAsyncService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    VendorService vendorService;
+    @Autowired
+    PublicUserService publicUserService;
+    @Autowired
+    PublicVendorService publicVendorService;
+    @Autowired
+    AdminAsyncService adminAsyncService;
+    @Autowired
+    AccountAsyncService accountAsyncService;
 
-    private VendorService vendorService= new VendorService();
-    private UserService userService=new UserService();
-    private PublicVendorService publicVendorService= new PublicVendorService();
-    private PublicUserService publicUserService= new PublicUserService();
-    private AccountAsyncService accountAsyncService = new AccountAsyncService();
-    private AdminAsyncService adminAsyncService= new AdminAsyncService();
-    private TransactionAsyncService transactionAsyncService= new TransactionAsyncService();
+
     private static Logger log = LoggerFactory.getLogger(AccountAsyncService.class);
     private static final String JVT=""+ System.getenv("JVT_TOKEN_ID");
 

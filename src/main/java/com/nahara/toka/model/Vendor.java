@@ -12,9 +12,6 @@ public class Vendor {
 
     public Vendor() {
     }
-
-
-    //@SerializedName("Id")
     public String id;
     @SerializedName("username")
     private String username;
@@ -39,12 +36,6 @@ public class Vendor {
     @SerializedName("vendorShopName")
     private String vendorShopName;
 
-
-
-
-
-
-
     public String getAccountid() {
         return this.accountid;
     }
@@ -65,20 +56,13 @@ public class Vendor {
 
     }
 
-
-
-
     public String getPublickey() {
         return this.publickey;
     }
 
-
     public void setPublickey(){
 
        this.publickey=PrivateKey.fromString(this.privatekey).getPublicKey().toString();
-
-
-
     }
     public void setPrivateKey(){
 

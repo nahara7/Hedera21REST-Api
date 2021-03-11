@@ -12,7 +12,7 @@ import com.sybit.airtable.exception.AirtableException;
 import org.springframework.stereotype.Service;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeoutException;
-
+@Service
 public class PublicUserService {
 
     private static final String TOKAAIR = ""+System.getenv("TOKAAIR");

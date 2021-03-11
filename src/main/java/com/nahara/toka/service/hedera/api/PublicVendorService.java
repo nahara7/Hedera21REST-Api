@@ -8,9 +8,10 @@ import com.sybit.airtable.Airtable;
 import com.sybit.airtable.Base;
 import com.sybit.airtable.Table;
 import com.sybit.airtable.exception.AirtableException;
+import org.springframework.stereotype.Service;
 
-public class
-PublicVendorService {
+@Service
+public class PublicVendorService {
 
     private static final String TOKAAIR = ""+System.getenv("TOKAAIR");
     private static final String TOKABASE = ""+System.getenv("TOKABASE");

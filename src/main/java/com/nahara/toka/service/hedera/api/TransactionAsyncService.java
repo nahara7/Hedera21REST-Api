@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 
-
+@Service
 public class TransactionAsyncService {
     public TransactionAsyncService() throws AirtableException {
     }

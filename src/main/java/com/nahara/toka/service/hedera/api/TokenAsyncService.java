@@ -11,13 +11,15 @@ import com.sybit.airtable.exception.AirtableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
-
+@Service
 public class TokenAsyncService {
-    private static final String ADMINACCOUNTID= ""+System.getenv("NAHARA_ACCOUNT_ID");
-    private static final String ADMINPRIVATEKEY= ""+System.getenv("NAHARA_PRIVATE_KEY");
+    private static final String ADMINACCOUNTID= ""+System.getenv("ACCOUNT_ID");
+    private static final String ADMINPRIVATEKEY= ""+System.getenv("PRIVATE_KEY");
     private static final String TOKAAIR = ""+System.getenv("TOKAAIR");
     private static final String TOKABASE = ""+System.getenv("TOKABASE");
     private static final String JVT=""+ System.getenv("JVT_TOKEN_ID");

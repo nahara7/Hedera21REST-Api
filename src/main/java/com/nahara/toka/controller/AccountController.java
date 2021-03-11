@@ -7,6 +7,7 @@ import com.nahara.toka.service.hedera.api.*;
 import com.sybit.airtable.exception.AirtableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,13 +17,21 @@ import java.util.Map;
 @RequestMapping("api/v1.0/account")
 public class AccountController {
 
-    VendorService vendorService = new VendorService();
-    UserService userService = new UserService();
-    PublicVendorService publicVendorService = new PublicVendorService();
-    PublicUserService publicUserService = new PublicUserService();
-    AccountAsyncService accountAsyncService = new AccountAsyncService();
-    TransactionAsyncService transactionAsyncService = new TransactionAsyncService();
-    AdminAsyncService adminAsyncService= new AdminAsyncService();
+    @Autowired
+    TransactionAsyncService transactionAsyncService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    VendorService vendorService;
+    @Autowired
+    PublicUserService publicUserService;
+    @Autowired
+    PublicVendorService publicVendorService;
+    @Autowired
+    AdminAsyncService adminAsyncService;
+    @Autowired
+    AccountAsyncService accountAsyncService;
+
 
     private static final String JVT = "" + System.getenv("JVT_TOKEN_ID");
 
@@ -106,8 +115,8 @@ public class AccountController {
     }
     @PostMapping("vendorPublicKey")
     public String getVendorPublicKey(@RequestBody Id vendorId) throws AirtableException {
-          //Vendor vendor=vendorService.findVendor(vendorId.getBaseId());
-          PublicVendor vendor= publicVendorService.findVendor(vendorId.getBaseId());
+
+        PublicVendor vendor= publicVendorService.findVendor(vendorId.getBaseId());
           return vendor.getPublicKey();
     }
     @PostMapping("vendorShopName")

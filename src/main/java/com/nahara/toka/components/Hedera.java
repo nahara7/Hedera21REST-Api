@@ -19,8 +19,8 @@ public class Hedera {
     private Environment env;
 
 
-    private static final String HEDERA_API_ACCOUNT_ID = ""+System.getenv("NAHARA_ACCOUNT_ID");
-    private static final String HEDERA_API_PRIVATE_KEY = ""+System.getenv("NAHARA_PRIVATE_KEY");
+    private static final String HEDERA_API_ACCOUNT_ID = ""+System.getenv("ACCOUNT_ID");
+    private static final String HEDERA_API_PRIVATE_KEY = ""+System.getenv("PRIVATE_KEY");
 
     public Hedera() { }
 

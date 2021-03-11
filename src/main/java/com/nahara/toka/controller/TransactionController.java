@@ -27,16 +27,20 @@ public class TransactionController {
 
 
     private static Logger log = LoggerFactory.getLogger(TransactionController.class);
-
-
-
-    TransactionAsyncService transactionAsyncService= new TransactionAsyncService();
-    UserService userService = new UserService();
-    VendorService vendorService = new VendorService();
-    PublicUserService publicUserService= new PublicUserService();
-    PublicVendorService publicVendorService=new PublicVendorService();
-    AdminAsyncService adminAsyncService= new AdminAsyncService();
-    AccountAsyncService accountAsyncService= new AccountAsyncService();
+    @Autowired
+    TransactionAsyncService transactionAsyncService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    VendorService vendorService;
+    @Autowired
+    PublicUserService publicUserService;
+    @Autowired
+    PublicVendorService publicVendorService;
+    @Autowired
+    AdminAsyncService adminAsyncService;
+    @Autowired
+    AccountAsyncService accountAsyncService;
 
     public String JVT=""+ System.getenv("JVT_TOKEN_ID");
     public TransactionController() throws AirtableException {

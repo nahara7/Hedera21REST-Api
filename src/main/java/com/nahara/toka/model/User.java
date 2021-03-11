@@ -12,9 +12,6 @@ public class User {
 
     public User() {
     }
-
-
-    //@SerializedName("Id")
     public String id;
     @SerializedName("username")
     private String username;

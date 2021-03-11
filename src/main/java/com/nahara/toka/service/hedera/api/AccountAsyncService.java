@@ -9,12 +9,13 @@ import com.sybit.airtable.exception.AirtableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
-
+@Service
 public class AccountAsyncService {
 
     private static final String TOKAAIR = ""+System.getenv("TOKAAIR");
@@ -28,8 +29,8 @@ public class AccountAsyncService {
     Table<PublicUser> userTable = base.table("Users", PublicUser.class);
     Table<PublicVendor> vendorTable = base.table("Vendors", PublicVendor.class);
 
-    private static final String ADMINACCOUNTID= ""+System.getenv("NAHARA_ACCOUNT_ID");
-    private static final String ADMINPRIVATEKEY= ""+System.getenv("NAHARA_PRIVATE_KEY");
+    private static final String ADMINACCOUNTID= ""+System.getenv("ACCOUNT_ID");
+    private static final String ADMINPRIVATEKEY= ""+System.getenv("PRIVATE_KEY");
 
     public AccountAsyncService() throws AirtableException {
     }
